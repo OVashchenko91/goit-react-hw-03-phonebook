@@ -1,21 +1,28 @@
 import PropTypes from 'prop-types';
-import { Label, Input } from "./Filter.styled";
+import { ContactItem } from 'components/ContactItem/ContactItem';
+import { ContactListEl } from './ContactList.styled';
 
-export function Filter ({value, onChange}) {
+export function ContactList({contacts, onDeleteContact}) {
     return (
-        <Label>
-            Find contacts by name
-            <Input
-                type="text"
-                name="filter"
-                value={value}
-                onChange={onChange}
-            />
-        </Label>
+        <ContactListEl>
+            {contacts.map((contact) => {
+                    return (
+                        <ContactItem 
+                            key={contact.name}
+                            name={contact.name}
+                            number={contact.number}
+                            onDeleteContact={onDeleteContact}
+                        />
+                    );
+                })}                
+        </ContactListEl>
     );
 };
 
-Filter.propTypes = {
-    value: PropTypes.string, 
-    onChange: PropTypes.func,
+ContactList.propTypes = {
+    contacts: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string,
+        number: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    })),
+    onDeleteContact: PropTypes.func,
 };
